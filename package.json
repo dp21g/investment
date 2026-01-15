@@ -15,7 +15,8 @@
     "cli": "ts-node src/index.ts",
     "test": "echo \"Error: no test specified\" && exit 1",
     "db:studio": "prisma studio",
-    "download:futures": "tsx src/index.ts futures"
+    "download:futures": "tsx src/index.ts futures",
+    "postinstall": "prisma generate"
   },
   "repository": {
     "type": "git",
@@ -55,6 +56,7 @@
     "express": "^4.21.2",
     "lightweight-charts": "^4.2.2",
     "lucide-react": "^0.562.0",
+    "pg": "^8.17.1",
     "react": "^18.3.1",
     "react-chartjs-2": "^5.3.1",
     "react-dom": "^18.3.1"
