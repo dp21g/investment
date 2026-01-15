@@ -1,5 +1,4 @@
-import { Candle } from '@prisma/client';
-import { StrategyFunction, StrategyResult } from './types';
+import { StrategyFunction } from './types';
 
 export const Strategies: Record<string, StrategyFunction> = {
   /**
@@ -67,7 +66,7 @@ export const Strategies: Record<string, StrategyFunction> = {
     if (prevCandles.length < 3) return { shouldBuy: false };
 
     const c1 = prevCandles[prevCandles.length - 3];
-    const c2 = prevCandles[prevCandles.length - 2];
+    // const c2 = prevCandles[prevCandles.length - 2];
     const c3 = prevCandles[prevCandles.length - 1]; // Yesterday
 
     // Bullish FVG?

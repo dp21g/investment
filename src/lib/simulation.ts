@@ -4,7 +4,6 @@ import { SimulationResult, StrategyConfig } from './types';
 
 export class SimulationEngine {
   static run(
-    ticker: string,
     candles: Candle[],
     config: StrategyConfig,
     strategyName: string
@@ -111,11 +110,11 @@ export class SimulationEngine {
                 // If signal buy, use signal price (Close or specific level).
                 
                 let buyPrice = result.price || candle.close;
-                let reason = result.reason;
+                // let reason = result.reason;
 
                 if (!result.shouldBuy && isLastDayOfMonth) {
                     buyPrice = candle.close;
-                    reason = 'End of Month Force Buy';
+                    // reason = 'End of Month Force Buy';
                 }
 
                 const sharesToBuy = currentMonthBudget / buyPrice;

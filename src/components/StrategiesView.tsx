@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { RefreshCw, CheckCircle, AlertCircle } from 'lucide-react';
 
 interface DataRange {

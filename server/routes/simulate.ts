@@ -67,8 +67,8 @@ router.post('/', async (req, res) => {
         };
 
         try {
-            const dcaResult = SimulationEngine.run(ticker, candles, dcaConfig, 'DCA');
-            const lumpResult = SimulationEngine.run(ticker, candles, lumpConfig, 'DCA'); // Use DCA strategy (buy when cash available)
+            const dcaResult = SimulationEngine.run(candles, dcaConfig, 'DCA');
+            const lumpResult = SimulationEngine.run(candles, lumpConfig, 'DCA'); // Use DCA strategy (buy when cash available)
 
             results.push({
                 ticker,

@@ -7,7 +7,7 @@ interface QueryViewProps {
     selectedTickers: string[];
 }
 
-export default function QueryView({ tickers, selectedTickers }: QueryViewProps) {
+export default function QueryView({ selectedTickers }: QueryViewProps) {
     const [results, setResults] = useState<any[]>([]);
     const [loading, setLoading] = useState(false);
     

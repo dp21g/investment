@@ -88,8 +88,7 @@ export class Indicators {
     // loss = delta < 0 ? -delta : 0
     // avg_gain = gain.rolling(14).mean()
     // avg_loss = loss.rolling(14).mean()
-
-    const gains: number[] = [0]; // index 0 diff nan -> treated as 0 logic or careful? 
+ 
     // Pandas diff(): index 0 is NaN. gain/loss at index 0 is NaN.
     // rolling(14).mean(): result at index 13 uses 0..13, but index 0 is NaN.
     // However, pandas rolling usually ignores NaN or propagates. 

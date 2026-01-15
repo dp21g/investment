@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import ComparisonView from '@/components/ComparisonView';
 import QueryView from '@/components/QueryView';
 import StrategiesView from '@/components/StrategiesView';

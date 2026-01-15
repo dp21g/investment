@@ -1,5 +1,5 @@
-import { createChart, ColorType, IChartApi, ISeriesApi } from 'lightweight-charts';
-import React, { useEffect, useRef } from 'react';
+import { createChart, ColorType, IChartApi } from 'lightweight-charts';
+import { useEffect, useRef } from 'react';
 
 interface TVChartProps {
     data: { time: string, value: number }[];
