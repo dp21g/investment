@@ -28,6 +28,10 @@ app.use('/api/query', queryRouter);
 app.use('/api/tickers', tickersRouter);
 app.use('/api/strategies', strategiesRouter);
 
+app.get('/api/health', (req, res) => {
+  res.json({ status: 'ok', timestamp: new Date() });
+});
+
 // Serve static files in production
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, '../dist')));

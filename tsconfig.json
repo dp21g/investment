@@ -30,7 +30,7 @@
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true
   },
-  "include": ["src"],
-  "exclude": ["node_modules", "dist", "server", "dist-server"],
+  "include": ["src", "server", "api"],
+  "exclude": ["node_modules", "dist", "dist-server"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
