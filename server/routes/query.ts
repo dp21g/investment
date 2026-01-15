@@ -38,7 +38,7 @@ router.post('/dip', async (req, res) => {
             candles.forEach(c => {
                 const y = new Date(c.date).getFullYear();
                 if (!yearsMap.has(y)) yearsMap.set(y, []);
-                yearsMap.get(y).push(c);
+                yearsMap.get(y)!.push(c);
             });
 
             const yearlyStats = [];
