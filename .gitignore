@@ -10,6 +10,7 @@ node_modules
 # Production build output
 .next/
 dist/
+dist-server/
 out/
 build/
 
@@ -39,3 +40,6 @@ coverage/
 # Generated
 /generated/prisma
 
+# TypeScript
+*.tsbuildinfo
+next-env.d.ts

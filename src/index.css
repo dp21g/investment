@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 
+   We rely on comparison.css for the main theme / body background.
+   Removing the default Next.js starter gradient which was causing 
+   the "black and white pattern" visual glitch.
+*/

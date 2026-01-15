@@ -1,13 +1,15 @@
-import { NextResponse } from 'next/server';
-import { SyncService } from '@/lib/sync';
+import express from 'express';
+import { SyncService } from '../../src/lib/sync.js';
 
-export async function POST(request: Request) {
+const router = express.Router();
+
+router.post('/', async (req, res) => {
   try {
-    const body: any = await request.json();
+    const body = req.body;
     const { tickers, startYear } = body;
 
     if (!tickers || !Array.isArray(tickers) || !startYear) {
-      return NextResponse.json({ error: 'Invalid parameters' }, { status: 400 });
+      return res.status(400).json({ error: 'Invalid parameters' });
     }
 
     const results = [];
@@ -28,9 +30,11 @@ export async function POST(request: Request) {
         }
     }
 
-    return NextResponse.json({ results });
+    return res.json({ results });
   } catch (error) {
     console.error('Sync API Error:', error);
-    return NextResponse.json({ error: 'Sync failed' }, { status: 500 });
+    return res.status(500).json({ error: 'Sync failed' });
   }
-}
+});
+
+export default router;

@@ -18,6 +18,7 @@ model Candle {
   high          Float
   low           Float
   close         Float
+  adjClose      Float?
   volume        BigInt
   
   // Pre-calculated indicators for efficient querying
@@ -30,4 +31,32 @@ model Candle {
   @@unique([ticker, date])
   @@index([ticker, date])
   @@index([rsi]) // Efficient search for "RSI < 40"
+}
+
+model Candle30m {
+  id            Int      @id @default(autoincrement())
+  ticker        String
+  date          DateTime
+  open          Float
+  high          Float
+  low           Float
+  close         Float
+  volume        BigInt
+
+  @@unique([ticker, date])
+  @@index([ticker, date])
+}
+
+model Candle3m {
+  id            Int      @id @default(autoincrement())
+  ticker        String
+  date          DateTime
+  open          Float
+  high          Float
+  low           Float
+  close         Float
+  volume        BigInt
+
+  @@unique([ticker, date])
+  @@index([ticker, date])
 }

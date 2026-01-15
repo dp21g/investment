@@ -30,6 +30,7 @@ export class SimulationEngine {
     // Annual Return Tracking
     let currentTrackingYear = -1;
     let yearOpenPrice = 0;
+    let yearOpenAdj = 0;
     // Isolated Yearly Stats
     let sharesBoughtThisYear = 0;
     let costOfTradesThisYear = 0;
@@ -44,6 +45,7 @@ export class SimulationEngine {
         if (year !== currentTrackingYear) {
              currentTrackingYear = year;
              yearOpenPrice = candle.open;
+             yearOpenAdj = candle.adjClose || candle.open;
              // Reset isolated stats
              sharesBoughtThisYear = 0;
              costOfTradesThisYear = 0;
@@ -59,12 +61,23 @@ export class SimulationEngine {
             currentMonth = month;
             isStartOfMonth = true;
             
-            // Add monthly contribution
-            cash += config.monthlyAmount;
-            currentMonthBudget = config.monthlyAmount; // Track specific budget for "force buy" logic
-            monthlyBudgetAvailable = true;
-            totalInvested += config.monthlyAmount;
-            allocatedThisYear += config.monthlyAmount;
+            // Add contribution based on frequency
+            if (config.fundingFrequency === 'ANNUALLY') {
+                 if (month === 0) { // January
+                     cash += config.monthlyAmount; // Treated as Annual Amount
+                     currentMonthBudget = config.monthlyAmount;
+                     monthlyBudgetAvailable = true;
+                     totalInvested += config.monthlyAmount;
+                     allocatedThisYear += config.monthlyAmount;
+                 }
+            } else {
+                // Default MONTHLY
+                cash += config.monthlyAmount;
+                currentMonthBudget = config.monthlyAmount; 
+                monthlyBudgetAvailable = true;
+                totalInvested += config.monthlyAmount;
+                allocatedThisYear += config.monthlyAmount;
+            }
         }
 
         // Run Strategy
@@ -145,6 +158,14 @@ export class SimulationEngine {
                 // Market Return (Buy & Hold from Jan 1 Open of THIS year to Dec 31 Close)
                 // We use yearOpenPrice tracked at start of year
                 const marketRet = yearOpenPrice > 0 ? ((candle.close - yearOpenPrice) / yearOpenPrice) * 100 : 0;
+                
+                // Yahoo / Adjusted Return (Calculate using stored adjClose if available)
+                // Need to track start of year adjClose
+                // Since we didn't track it above, we can assume yearOpenPrice was "close". 
+                // We should probably have tracked yearOpenAdj.
+                // NOTE: This requires updating the loop state tracking logic.
+                // Assuming we update the loop state below (I'll inject it).
+                const yahooRet = yearOpenAdj > 0 && candle.adjClose ? ((candle.adjClose - yearOpenAdj) / yearOpenAdj) * 100 : marketRet;
 
                 // Strategy Return (Annual Isolated)
                 // We simulate: If we started with 0 shares and just did the trades of this year.
@@ -160,7 +181,8 @@ export class SimulationEngine {
                     value: currentVal,
                     profit: profit,
                     yearReturn: strategyRet,
-                    marketReturn: marketRet
+                    marketReturn: marketRet,
+                    yahooReturn: yahooRet
                 });
             }
     } // End for loop

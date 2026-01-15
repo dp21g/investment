@@ -38,6 +38,7 @@ export interface StrategyConfig {
   rsiThreshold?: number; // For RSI strategy
   emaPeriod?: number; // For EMA strategy
   dropPct?: number; // For 'After Drop' strategy
+  fundingFrequency?: 'MONTHLY' | 'ANNUALLY';
 }
 
 export type StrategyFunction = (
