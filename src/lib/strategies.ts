@@ -1,4 +1,4 @@
-import { StrategyFunction } from './types';
+import { StrategyFunction } from './types.js';
 
 export const Strategies: Record<string, StrategyFunction> = {
   /**

@@ -1,6 +1,6 @@
-import prisma from './db';
-import { YahooFinance } from './yahoo';
-import { Indicators } from './indicators';
+import prisma from './db.js';
+import { YahooFinance } from './yahoo.js';
+import { Indicators } from './indicators.js';
 
 export class SyncService {
   static async syncTicker(ticker: string, sinceYear: number = 2020) {

@@ -1,6 +1,6 @@
 import { Candle } from '@prisma/client';
-import { Strategies } from './strategies';
-import { SimulationResult, StrategyConfig } from './types';
+import { Strategies } from './strategies.js';
+import { SimulationResult, StrategyConfig } from './types.js';
 
 export class SimulationEngine {
   static run(
