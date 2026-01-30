@@ -58,6 +58,61 @@ model Candle3m {
   close         Float
   volume        BigInt
 
+
+  @@unique([ticker, date])
+  @@index([ticker, date])
+}
+
+model Candle20m {
+  id            Int      @id @default(autoincrement())
+  ticker        String
+  date          DateTime
+  open          Float
+  high          Float
+  low           Float
+  close         Float
+  volume        BigInt
+
+  @@unique([ticker, date])
+  @@index([ticker, date])
+}
+
+model Candle5m {
+  id            Int      @id @default(autoincrement())
+  ticker        String
+  date          DateTime
+  open          Float
+  high          Float
+  low           Float
+  close         Float
+  volume        BigInt
+
+  @@unique([ticker, date])
+  @@index([ticker, date])
+}
+
+model ChartDrawing {
+  id          Int      @id @default(autoincrement())
+  ticker      String
+  contextDate DateTime // The Inside Candle Date
+  type        String   // 'line', 'box', 'fib'
+  points      Json     // Array of points { time, price }
+  properties  Json     // Color, width, etc.
+  createdAt   DateTime @default(now())
+
+  @@index([ticker, contextDate])
+}
+
+model Candle2m {
+  id            Int      @id @default(autoincrement())
+  ticker        String
+  date          DateTime
+  open          Float
+  high          Float
+  low           Float
+  close         Float
+  volume        BigInt
+
   @@unique([ticker, date])
   @@index([ticker, date])
 }

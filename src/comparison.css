@@ -24,6 +24,7 @@ body {
 .comparison-container {
   max-width: 1200px;
   margin: 0 auto;
+  padding-bottom: 120px; /* Space for fixed bottom nav */
 }
 
 .comparison-h1 {

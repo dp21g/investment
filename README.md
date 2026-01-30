@@ -80,6 +80,29 @@ This tool allows you to backtest 4 core investment strategies using **real histo
     *   **Strategy Return:** Your personal return on invested capital.
     *   **Vs Market:** Compare against buying and holding the asset for the same year.
 
-## � License
+## 📉 Local Futures Analysis (New)
+
+A dedicated module for analyzing intraday price action on **Futures (NQ, ES)** using a high-frequency (5m/20m) local database.
+
+### Features
+*   **Inside Candle Monitor:** Identifies 20m candles that are "Inside" (High < PrevHigh && Low > PrevLow).
+*   **Breach Detection:** Monitors subsequent 5m candles to detect when the Inside Candle's range is breached (High or Low).
+*   **Local Postgres:** Uses a Dockerized local Postgres instance to store millions of candle rows without Vercel limits.
+
+### Setup for Local Analysis
+1.  **Start Local DB:**
+    ```bash
+    docker-compose up -d
+    ```
+2.  **Seed Futures Data:**
+    ```bash
+    npm run download:futures
+    ```
+    *Note: The script now supports **incremental fetching**. It check the database for existing data and only downloads new candles to save time.*
+
+3.  **View Analysis:**
+    Navigate to the "Local" tab in the application.
+
+## 📄 License
 
 This project is for **educational purposes only**. Past performance is not indicative of future results. Not financial advice.

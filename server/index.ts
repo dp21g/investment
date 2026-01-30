@@ -22,11 +22,14 @@ app.use(cors());
 app.use(express.json());
 
 // API Routes
+import localRouter from './routes/local.js';
+
 app.use('/api/sync', syncRouter);
 app.use('/api/simulate', simulateRouter);
 app.use('/api/query', queryRouter);
 app.use('/api/tickers', tickersRouter);
 app.use('/api/strategies', strategiesRouter);
+app.use('/api/local', localRouter);
 
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', timestamp: new Date() });

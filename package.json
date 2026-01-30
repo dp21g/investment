@@ -4,7 +4,7 @@
   "description": "Complete analysis tool for comparing different monthly investment timing strategies across multiple years.",
   "type": "module",
   "scripts": {
-    "dev": "concurrently \"npm run dev:frontend\" \"npm run dev:backend\"",
+    "dev": "tsx scripts/start-dev.ts",
     "dev:frontend": "vite",
     "dev:backend": "tsx watch server/index.ts",
     "build": "tsc && vite build",

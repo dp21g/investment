@@ -63,6 +63,18 @@ export class YahooFinance {
   }
 
   static aggregate1mTo3m(candles: CandleData[]): CandleData[] {
+      return YahooFinance.aggregateCandlesToInterval(candles, 3);
+  }
+
+  static aggregate1mTo2m(candles: CandleData[]): CandleData[] {
+      return YahooFinance.aggregateCandlesToInterval(candles, 2);
+  }
+
+  static aggregate5mTo20m(candles: CandleData[]): CandleData[] {
+      return YahooFinance.aggregateCandlesToInterval(candles, 20);
+  }
+
+  private static aggregateCandlesToInterval(candles: CandleData[], intervalMinutes: number): CandleData[] {
       const result: CandleData[] = [];
       
       // Sort by date just in case
@@ -72,16 +84,18 @@ export class YahooFinance {
       let bucketCandles: CandleData[] = [];
 
       for (const candle of candles) {
-          // Determine the bucket start time (round down to nearest 3 minutes)
+          // Determine the bucket start time
           const time = candle.date.getTime();
-          const msPer3Min = 3 * 60 * 1000;
-          const bucketTime = Math.floor(time / msPer3Min) * msPer3Min;
+          const msPerInterval = intervalMinutes * 60 * 1000;
+          // For 20m candles, we want 00, 20, 40 aligned.
+          // For 3m candles, we want 00, 03, 06 aligned.
+          const bucketTime = Math.floor(time / msPerInterval) * msPerInterval;
           const bucketDate = new Date(bucketTime);
 
           if (!currentBucketStart || bucketTime !== currentBucketStart.getTime()) {
               // Process previous bucket
-              if (bucketCandles.length > 0) {
-                  result.push(YahooFinance.aggregateCandles(bucketCandles));
+              if (bucketCandles.length > 0 && currentBucketStart) {
+                  result.push(YahooFinance.aggregateCandles(bucketCandles, currentBucketStart));
               }
               // Start new bucket
               currentBucketStart = bucketDate;
@@ -92,14 +106,14 @@ export class YahooFinance {
       }
       
       // Process last bucket
-      if (bucketCandles.length > 0) {
-          result.push(YahooFinance.aggregateCandles(bucketCandles));
+      if (bucketCandles.length > 0 && currentBucketStart) {
+          result.push(YahooFinance.aggregateCandles(bucketCandles, currentBucketStart));
       }
 
       return result;
   }
 
-  private static aggregateCandles(candles: CandleData[]): CandleData {
+  private static aggregateCandles(candles: CandleData[], bucketStartDate?: Date): CandleData {
       const first = candles[0];
       const last = candles[candles.length - 1];
       
@@ -114,7 +128,7 @@ export class YahooFinance {
       }
 
       return {
-          date: first.date, // Use start time of the bucket
+          date: bucketStartDate || first.date, // Use passed bucket start or first candle date
           open: first.open,
           high,
           low,

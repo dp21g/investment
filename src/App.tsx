@@ -2,11 +2,12 @@ import { useState, useEffect } from 'react';
 import ComparisonView from '@/components/ComparisonView';
 import QueryView from '@/components/QueryView';
 import StrategiesView from '@/components/StrategiesView';
+import LocalView from '@/components/LocalView';
 import { Home, Search, BarChart2 } from 'lucide-react';
 
 export default function App() {
     const [mounted, setMounted] = useState(false);
-    const [currentView, setCurrentView] = useState<'home' | 'query' | 'strategies'>('home');
+    const [currentView, setCurrentView] = useState<'home' | 'query' | 'strategies' | 'local'>('home');
     
     // URL State Sync
     useEffect(() => {
@@ -17,6 +18,8 @@ export default function App() {
                  setCurrentView('query');
              } else if (path.startsWith('/strategies')) {
                  setCurrentView('strategies');
+             } else if (path.startsWith('/local')) {
+                 setCurrentView('local');
              } else {
                  setCurrentView('home');
              }
@@ -27,14 +30,12 @@ export default function App() {
         return () => window.removeEventListener('popstate', handlePath);
     }, []);
 
-    const updateView = (view: 'home' | 'query' | 'strategies') => {
+    const updateView = (view: 'home' | 'query' | 'strategies' | 'local') => {
         setCurrentView(view);
         if (view === 'home') {
             window.history.pushState({}, '', '/');
-        } else if (view === 'query') {
-            window.history.pushState({}, '', '/query');
         } else {
-            window.history.pushState({}, '', '/strategies');
+            window.history.pushState({}, '', `/${view}`);
         }
     };
 
@@ -149,8 +150,10 @@ export default function App() {
                     tickers={tickers}
                     selectedTickers={selectedTickers}
                 />
-            ) : (
+            ) : currentView === 'strategies' ? (
                 <StrategiesView />
+            ) : (
+                <LocalView />
             )}
 
             {/* Bottom Navigation */}
@@ -175,6 +178,13 @@ export default function App() {
                 >
                     <BarChart2 size={24} />
                     <span>Strategies</span>
+                </button>
+                <button 
+                    onClick={() => updateView('local')}
+                    className={`nav-btn ${currentView === 'local' ? 'active-local' : ''}`}
+                >
+                    <div style={{fontWeight: 'bold', fontSize: '18px'}}>L</div>
+                    <span>Local</span>
                 </button>
             </div>
         </div>
